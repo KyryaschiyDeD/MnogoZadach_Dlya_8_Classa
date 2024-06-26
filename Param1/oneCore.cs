@@ -6,8 +6,236 @@ using System.Threading.Tasks;
 
 namespace MnogoZadachDky8Classa.Param1
 {
-    internal class one
+    internal class oneCore
     {
+        public void GetValueJob(int butNum, string elt1, string elt2, string elt3)
+        {
+            if (elt1 == null && butNum != 15)
+            {
+                Zadacha1.label.Text = "Ввод пуст";
+                return;
+            }
+            else
+            if ((butNum >=5 && butNum <= 9) || butNum == 16 || butNum == 19)
+            {
+                if (elt1 == null || elt2 == null)
+                {
+                    Zadacha1.label.Text = "Ввод пуст";
+                    return;
+                }
+            }
+            else
+            if (butNum == 11 || butNum == 14)
+            {
+                if (elt1 == null || elt2 == null || elt3 == null)
+                {
+                    Zadacha1.label.Text = "Ввод пуст";
+                    return;
+                }
+            }
+
+            switch (butNum)
+            {
+                case 1:
+                    {
+                        if (elt1.Length == 1)
+                            Zadacha1.label.Text = IsUpper(Convert.ToChar(elt1)).ToString();
+                        else
+                            Zadacha1.label.Text = "Строка не является символом";
+                    }
+                    break;
+                case 2:
+                    {
+                        if (elt1.Length == 1)
+                            Zadacha1.label.Text = IsDigit(Convert.ToChar(elt1)).ToString();
+                        else
+                            Zadacha1.label.Text = "Строка не является символом";
+                    }
+                    break;
+                case 3:
+                    {
+                        if (elt1.Length == 1)
+                            Zadacha1.label.Text = ToUpper(Convert.ToChar(elt1)).ToString();
+                        else
+                            Zadacha1.label.Text = "Строка не является символом";
+                    }
+                    break;
+                case 4:
+                    {
+                        if (elt1.Length == 1)
+                            Zadacha1.label.Text = Factorial(Convert.ToInt32(elt1)).ToString();
+                        else
+                            Zadacha1.label.Text = "Строка не является числом";
+                    }
+                    break;
+                case 5:
+                    {
+                        int ch;
+                        double number;
+                        bool isDouble = Double.TryParse(elt1, out number);
+                        bool isInt = Int32.TryParse(elt2, out ch);
+                        if (isDouble && isInt)
+                            Zadacha1.label.Text = Power(number, ch).ToString();
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 6:
+                    {
+                        int ch1, ch2;
+                        bool isInt1 = Int32.TryParse(elt1, out ch1);
+                        bool isInt2 = Int32.TryParse(elt2, out ch2);
+                        if (isInt1 && isInt2)
+                            Zadacha1.label.Text = MoreDigits(ch1, ch2).ToString();
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 7:
+                    {
+                        double ch1, ch2;
+                        bool isDouble1 = Double.TryParse(elt1, out ch1);
+                        bool isDouble2 = Double.TryParse(elt2, out ch2);
+                        if (isDouble1 && isDouble2)
+                            Zadacha1.label.Text = CompareDecimalPlaces(ch1, ch2).ToString();
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 8:
+                case 9:
+                    {
+                        if (elt1.Contains(',') && elt2.Contains(','))
+                        {
+                            if (butNum == 8)
+                                Zadacha1.label.Text = ArrayToString(MergeArraysUnic(elt1.Split(','), elt2.Split(',')));
+                            else
+                            if (butNum == 9)
+                                Zadacha1.label.Text = ArrayToString(MergeArraysOne(elt1.Split(','), elt2.Split(',')));
+                        }
+                        else if (elt1.Equals(elt2) || elt2.Contains(elt1))
+                            Zadacha1.label.Text = elt1;
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 10:
+                    {
+                        if (elt1.Length == 1)
+                            Zadacha1.label.Text = GetDigitValueFromChar(Convert.ToChar(elt1)).ToString();
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 11:
+                    {
+                        int ch1, ch2, ch3;
+                        bool isInt1 = Int32.TryParse(elt1, out ch1);
+                        bool isInt2 = Int32.TryParse(elt2, out ch2);
+                        bool isInt3 = Int32.TryParse(elt3, out ch3);
+                        if (isInt1 && isInt2 && isInt3)
+                        {
+                            int[] a = new int[ch1];
+                            Zadacha1.label.Text = ConvertToSeconds(ch1, ch2, ch3).ToString();
+                        }
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 12:
+                    {
+                        int ch1;
+                        bool isInt1 = Int32.TryParse(elt1, out ch1);
+                        if (isInt1)
+                        {
+                            int[] a = new int[ch1];
+                            Zadacha1.label.Text = ArrayToString(FillArray(a));
+                        }
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные, необходимо указать размер массива";
+                    }
+                    break;
+                case 13: 
+                    {
+                        int ch1;
+                        bool isInt1 = Int32.TryParse(elt1, out ch1);
+                        if (isInt1)
+                        {
+                            Zadacha1.label.Text = password_generator(ch1).ToString();
+                        }
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные, необходимо указать длину пароля";
+                    } 
+                    break;
+                case 14: 
+                    {
+                        int ch = 0;
+                        bool isCh = Int32.TryParse(elt1, out ch);
+
+                        if (elt2.Contains(',') && isCh && elt2.Length > ch)
+                            Zadacha1.label.Text = CopyArray(elt1.Split(','), elt2.Split(','), ch).ToString();
+                        else if (elt2.Length == 1 && ch == 1)
+                            Zadacha1.label.Text = elt1 + elt2;
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    } 
+                    break;
+                case 15: 
+                    {
+                        Zadacha1.label.Text = GenerateEmail(); 
+                    }
+                    break;
+                case 16:
+                    {
+                        double ch1, ch2;
+                        bool isDouble1 = Double.TryParse(elt1, out ch1);
+                        bool isDouble2 = Double.TryParse(elt2, out ch2);
+                        if (isDouble1 && isDouble2)
+                            Zadacha1.label.Text = ConvertRublesToDollars(ch1, ch2).ToString();
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    }
+                    break;
+                case 17: 
+                    {
+                        Zadacha1.label.Text = WordCount(elt1).ToString();
+                    } 
+                    break;
+                case 18: 
+                    {
+                        int ch;
+                        bool isInt = Int32.TryParse(elt1, out ch);
+                        if (isInt)
+                            Zadacha1.label.Text = ConvertInt_8_16(ch).ToString();
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные";
+                    } 
+                    break;
+                case 19: 
+                    {
+                        int ch;
+                        bool isInt = Int32.TryParse(elt2, out ch);
+                        if (isInt)
+                        {
+                            Zadacha1.label.Text = ArrayToString(ResizeArray(elt1.Split(','),ch));
+                        }
+                        else
+                            Zadacha1.label.Text = "Неверные входные данные, необходимо указать размер массива";
+                    } 
+                    break;
+                case 20: 
+                    {
+                        if (elt1.Contains(','))
+                        {
+                            Zadacha1.label.Text = ArrayToString(GetUniqueValues(elt1.Split(',')));
+                        }
+                        else 
+                            Zadacha1.label.Text = elt1;
+                    } 
+                    break;
+            }
+        }
+
         /*!
          * Задача 1.1
          * Напишите функцию bool IsUpper(char), которая определяет, является ли входной символ 
@@ -210,17 +438,19 @@ namespace MnogoZadachDky8Classa.Param1
          * Напишите две функции. Первая функция заполняет массив случайными
          * значениями, вторая функция выводит массив на экран
          */
-        public void FillArray(int[] array, int size)
+        public int[] FillArray(int[] array)
         {
             Random random = new Random();
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < (array.Count() - 1); i++)
             {
-                array[i] = random.Next(0, 100);
+                array[i] = random.Next(-100, 100);
             }
+            PrintArray(array);
+            return array;
         }
-        public void PrintArray(int[] array, int size)
+        public void PrintArray(int[] array)
         {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < array.Count() - 1; i++)
             {
                 Console.Write($"{array[i]} ");
             }
@@ -302,9 +532,9 @@ namespace MnogoZadachDky8Classa.Param1
          * Написать функцию, которая принимает аргумент целочисленное число и выводит его
          * представление в восьмеричной и шестнадцатеричной системе исчисления
          */
-        public void ConvertInt_8_16(int number)
+        public string ConvertInt_8_16(int number)
         {
-            string tmp =  "В восьмеричной системе: {}" + Convert.ToString(number, 8) +
+            return "В восьмеричной системе: {}" + Convert.ToString(number, 8) +
                 "\n В шестнадцатеричной системе: " + Convert.ToString(number, 16);
         }
 
@@ -313,17 +543,13 @@ namespace MnogoZadachDky8Classa.Param1
          * Написать функцию, которая увеличивает размерность массива на заданное количество единиц,
          * с сохранением старых значений
          */
-        public int[] ResizeArray(int[] array, int newSize)
+        public T[] ResizeArray<T>(T[] array, int newSize)
         {
-            int[] newArray = new int[array.Length + newSize];
-
+            T[] newArray = new T[array.Length + newSize];
+            int a = 0;
             for (int i = 0; i < array.Length; i++)
             {
                 newArray[i] = array[i];
-            }
-            for (int i = array.Length; i < newArray.Length; i++)
-            {
-                newArray[i] = 0;
             }
 
             return newArray;
@@ -339,6 +565,20 @@ namespace MnogoZadachDky8Classa.Param1
         {
             var unique = array.Distinct();
             return unique.ToArray();
+        }
+
+
+        public static string ArrayToString<T>(T[] array)
+        {
+            string result = "";
+            foreach (T item in array)
+            {
+                if (item != null)
+                    result += item.ToString() + ", ";
+                else
+                    result += "0, ";
+            }
+            return result;
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Maui.Controls.Xaml;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MnogoZadachDky8Classa.Param1;
 
@@ -9,13 +10,12 @@ public partial class Zadacha1 : ContentPage
 
     static string[] methodsNames = { "IsUpper", "IsDigit", "ToUpper", "Factorial", "Power", "MoreDigits", "CompareDecimalPlaces", "MergeArraysUnic", "MergeArraysOne", "GetDigitValueFromChar", "ConvertToSeconds", "FillArray", "PrintArray", "password_generator", "CopyArray", "GenerateEmail", "ConvertRublesToDollars", "WordCount", "ConvertInt_8_16", "ResizeArray", "GetUniqueValues" };
 
+    public static Label label = new Label { Text = "" };
 
     public Zadacha1()
     {
         InitializeComponent();
         GenerateButtons();
-
-
     }
 
     private void GenerateButtons()
@@ -26,7 +26,8 @@ public partial class Zadacha1 : ContentPage
                 {
                     new RowDefinition{ Height=new GridLength(30) },
                     new RowDefinition{ Height=new GridLength(1, GridUnitType.Star) },
-                    new RowDefinition{ Height=new GridLength(2, GridUnitType.Star) }
+                    new RowDefinition{ Height=new GridLength(2, GridUnitType.Star) },
+                    new RowDefinition{ Height=new GridLength(1, GridUnitType.Star) }
                 },
             ColumnDefinitions =
                 {
@@ -36,11 +37,18 @@ public partial class Zadacha1 : ContentPage
                     new ColumnDefinition{Width = new GridLength(1, GridUnitType.Star)}
                 }
         };
-
+        
+        Editor textEditor1 = new Editor { HeightRequest = 200, FontSize = 16, BackgroundColor = Colors.DarkGray };
+        grid.Add(textEditor1, 1, 1);
+        Editor textEditor2 = new Editor { HeightRequest = 200, FontSize = 16, BackgroundColor = Colors.DarkGray };
+        grid.Add(textEditor2, 2, 1);
+        Editor textEditor3 = new Editor { HeightRequest = 200, FontSize = 16, BackgroundColor = Colors.DarkGray };
+        grid.Add(textEditor3, 3, 1);
+        
         string[] namesStolb = { "", "Один аргумент", "Два аргумента", "Три аргумента" };
         string[] argument0 = { "15" };
-        string[] argument1 = { "1", "2", "3", "4", "10", "13", "17", "18", "20" };
-        string[] argument2 = { "5", "6", "7", "8", "9", "12", "16", "19"};
+        string[] argument1 = { "1", "2", "3", "4", "10", "12", "13", "17", "18", "20" };
+        string[] argument2 = { "5", "6", "7", "8", "9", "16", "19"};
         string[] argument3 = { "11", "14" };
 
         List<string[]> arguments = new List<string[]>() { argument0, argument1, argument2, argument3 };
@@ -54,19 +62,15 @@ public partial class Zadacha1 : ContentPage
         }
 
         stolb = 0;
+        oneCore zadach = new oneCore();
+        var method = typeof(oneCore).GetMethod("GetValueJob");
         foreach (string[] countArgumentsElt in arguments)
-        {
-            
-            if (stolb != 0)
-            {
-                Editor textEditor = new Editor { HeightRequest = 200, FontSize = 16, BackgroundColor = Colors.DarkGray };
-                grid.Add(textEditor, stolb, 1);
-            }
-                
+        { 
             StackLayout oneStackBut = new StackLayout();
             foreach (string exNumber in countArgumentsElt)
             {
                 Button button = new Button { Text = exNumber, HorizontalOptions = LayoutOptions.Start };
+                button.Clicked += (sender, e) => method.Invoke(zadach, new object[] { Convert.ToInt32(exNumber), textEditor1.Text, textEditor2.Text, textEditor3.Text });
 
                 oneStackBut.Children.Add(button);
             }
@@ -74,23 +78,11 @@ public partial class Zadacha1 : ContentPage
             stolb++;
         }
 
+        grid.Add(label, 1,4);
 
-        //Label label = new Label { Text = "///" };
-        /*one zadach = new one();
-        StackLayout stackLayout = new StackLayout();
-        for (int i = 1; i <= 20; i++)
-        {
-            Button button = new Button { Text = i.ToString(), HorizontalOptions = LayoutOptions.Start };
-            var method = typeof(one).GetMethod("ConvertInt_8_16");
-            button.Clicked += (sender, e) => method.Invoke(zadach, new object[] { });
-
-            stackLayout.Children.Add(button);
-            //Content = stackLayout;
-        }*/
-
-
-
-        
         Content = grid;
     }
+
+    
+
 }
