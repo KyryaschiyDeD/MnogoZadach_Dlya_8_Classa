@@ -1,15 +1,49 @@
 using Microsoft.Maui.Controls;
+using MnogoZadachDky8Classa.Param1;
 using System;
+using Windows.UI;
 
 namespace MnogoZadachDky8Classa.Param2;
 
 public partial class Zadacha2 : ContentPage
 {
-    List<Student> students = new List<Student>();
+    public static List<Student> students = new List<Student>();
+
+    public static Grid grid = new Grid
+    {
+        ColumnDefinitions =
+                {
+                    new ColumnDefinition{Width = new GridLength(1, GridUnitType.Star)},
+                    new ColumnDefinition{Width = new GridLength(5, GridUnitType.Star)}
+                }
+    };
+
     public Zadacha2()
 	{
 		InitializeComponent();
+        generateData();
 
+        List<string> Metods = new List<string>() { "Num1", "Num2", "Num3", "Num4", "Num5", "Num6", "Num7", "Num8", "Num9" };
+        
+        StackLayout stack = new StackLayout();
+        TwoCore zadach = new TwoCore();
+        //int num = 1;
+        
+        foreach (string oneMethod in Metods)
+        {
+            var method = typeof(TwoCore).GetMethod(oneMethod);
+            Button button = new Button { Text = "Задача # " + oneMethod.Last().ToString(), HorizontalOptions = LayoutOptions.Start };
+            button.Clicked += (sender, e) => method.Invoke(zadach, new object[] {  });
+
+            stack.Add(button);
+            //num++;
+        }
+        grid.Add(stack, 0, 0);
+        Content = grid;
+    }
+
+    private void generateData()
+    {
         List<string> names = new List<string>() {
  "Александр", "Алексей", "Андрей", "Антон", "Артём", "Борис", "Вадим", "Виктор", "Владимир", "Владислав", "Георгий", "Григорий", "Денис", "Дмитрий", "Евгений", "Иван", "Игорь", "Илья", "Кирилл", "Константин", "Леонид", "Максим", "Михаил", "Николай", "Олег", "Павел", "Пётр", "Роман", "Сергей", "Тимофей", "Фёдор", "Юрий", "Ярослав"
 };
@@ -23,7 +57,6 @@ public partial class Zadacha2 : ContentPage
         List<string> schoolSubjects = new List<string>() {
  "Математика", "Русский язык", "История", "Физика", "Химия", "Биология", "География"
 };
-
         Random random = new Random();
         List<string> prepod = new List<string>();
         for (int i = 0; i < 7; i++)
@@ -40,7 +73,7 @@ public partial class Zadacha2 : ContentPage
             prepod.Add(lastNames[lastNameIndex] + " " + names[nameIndex] + " " + patronymics[lastPatronymicsIndex]);
         }
 
-        
+
         for (int i = 0; i < 60; i++)
         {
             int nameIndex = random.Next(0, names.Count);
@@ -68,7 +101,7 @@ public partial class Zadacha2 : ContentPage
             List<Subjects> subjects = new List<Subjects>();
 
             int subCount = random.Next(3, 6);
-            for (int j = 0;  j < subCount-1; j++)
+            for (int j = 0; j < subCount - 1; j++)
             {
                 int subjectIndex = random.Next(0, schoolSubjects.Count);
 
@@ -80,104 +113,14 @@ public partial class Zadacha2 : ContentPage
                     month = random.Next(1, 13);
                     day = random.Next(1, 31);
                 }
-                
+
                 DateTime timeEx = new DateTime(year, month, day);
 
                 subjects.Add(new Subjects(schoolSubjects[subjectIndex], random.Next(1, 6), timeEx, prepod[subjectIndex]));
             }
-            
+
             students.Add(new Student(firstName, lastName, patronymic, birthday, subjects));
         }
-        Num4(19);
-    }
-
-    public void Num1()
-    {
-        CollectionView collectionView = new CollectionView();
-        collectionView.ItemsSource = students;
-
-        collectionView.ItemTemplate = new DataTemplate(() =>
-        {
-            var nameLabel = new Label { FontSize = 20, TextColor = Colors.White, Margin = 10 };
-            nameLabel.SetBinding(Label.TextProperty, "getFIO");
-
-            var ageLabel = new Label();
-            ageLabel.SetBinding(Label.TextProperty, new Binding { Path = "birthday", StringFormat = "Дата рождения: {0}" });
-
-            return new StackLayout
-            {
-                Children = { nameLabel, ageLabel },
-                Margin = new Thickness(15, 10)
-            };
-        });
-
-        Content = collectionView;
-    }
-    public void Num2()
-    {
-        CollectionView collectionView = new CollectionView();
-        collectionView.ItemsSource = students;
-
-        collectionView.ItemTemplate = new DataTemplate(() =>
-        {
-            var nameLabel = new Label { FontSize = 20, TextColor = Colors.White, Margin = 10 };
-            nameLabel.SetBinding(Label.TextProperty, new Binding { Path = "getFIO", StringFormat = "Студент: {0}" });
-
-            var ageLabel = new Label();
-            ageLabel.SetBinding(Label.TextProperty, new Binding { Path = "GetTeachers", StringFormat = "Преподаватели: {0}" });
-
-            return new StackLayout
-            {
-                Children = { nameLabel, ageLabel },
-                Margin = new Thickness(15, 10)
-            };
-        });
-
-        Content = collectionView;
-    }
-    public void Num3()
-    {
-        CollectionView collectionView = new CollectionView();
-        collectionView.ItemsSource = students;
-
-        collectionView.ItemTemplate = new DataTemplate(() =>
-        {
-            var nameLabel = new Label { FontSize = 20, TextColor = Colors.White, Margin = 10 };
-            nameLabel.SetBinding(Label.TextProperty, new Binding { Path = "getFIO", StringFormat = "Студент: {0}" });
-
-            var ageLabel = new Label();
-            ageLabel.SetBinding(Label.TextProperty, new Binding { Path = "_checkNumAndSub"});
-
-            return new StackLayout
-            {
-                Children = { nameLabel, ageLabel },
-                Margin = new Thickness(15, 10)
-            };
-        });
-
-        Content = collectionView;
-    }
-    public void Num4(int n)
-    {
-        CollectionView collectionView = new CollectionView();
-        collectionView.ItemsSource = students.Where(student => student.age > n).ToList();
-
-        collectionView.ItemTemplate = new DataTemplate(() =>
-        {
-            var nameLabel = new Label { FontSize = 20, TextColor = Colors.White, Margin = 10 };
-            nameLabel.SetBinding(Label.TextProperty, "getFIO");
-
-            var ageLabel = new Label();
-            ageLabel.SetBinding(Label.TextProperty, new Binding { Path = "birthday", StringFormat = "Дата рождения: {0}" });
-
-            return new StackLayout
-            {
-                Children = { nameLabel, ageLabel },
-                Margin = new Thickness(15, 10)
-            };
-        });
-
-        Content = collectionView;
     }
 
     public static bool IsValidDate(int year, int month, int day)

@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace MnogoZadachDky8Classa.Param2
 {
-    internal class Student
+    public class Student
     {
         public string _firstName { get; set; } = "";
         public string _lastName { get; set; } = "";
         public string _patronymics { get; set; } = "";
         public string getFIO { get { return _lastName + " " + _firstName + " " + _patronymics; } }
         private DateTime _birthday { get; set; }
-        public string birthday { get { return _birthday.ToString("dd-MM-yyyy"); } }
+        public DateTime birthday { get { return _birthday; } }
+        public string birthdayStr { get { return _birthday.ToString("dd-MM-yyyy"); } }
+        public List<Subjects> _subjects { get; set; }
         public int age { get 
             {
                 DateTime currentDate = DateTime.Now;
@@ -23,7 +25,17 @@ namespace MnogoZadachDky8Classa.Param2
                 return age;
             } 
         }
-        public List<Subjects> _subjects { get; set; }
+
+        public double getSrBall
+        {
+            get
+            {
+                double sum = 0;
+                foreach (Subjects sub in _subjects)
+                    sum += Convert.ToInt32(sub.GetCheckNumber);
+                return sum / _subjects.Count();
+            }
+        }
 
         public string GetTeachers
         {

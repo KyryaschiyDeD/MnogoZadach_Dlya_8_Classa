@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MnogoZadachDky8Classa.Param2
 {
-    internal class Subjects
+    public class Subjects
     {
         public string _subjectName;
         public int _checkNumber;
