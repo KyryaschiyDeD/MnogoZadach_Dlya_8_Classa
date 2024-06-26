@@ -1,24 +1,42 @@
-﻿namespace MnogoZadachDky8Classa;
+﻿using System.Security.AccessControl;
+using MnogoZadachDky8Classa;
+using MnogoZadachDky8Classa.Param1;
+using MnogoZadachDky8Classa.Param2;
+
+namespace MnogoZadachDky8Classa;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
 
 	public MainPage()
 	{
 		InitializeComponent();
-	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+        Button toZadacha1PageBtn = new Button
+        {
+            Text = "1 Часть",
+            HorizontalOptions = LayoutOptions.Start
+        };
+        toZadacha1PageBtn.Clicked += ToOnePage;
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+        Button toZadacha2PageBtn = new Button
+        {
+            Text = "2 Часть",
+            HorizontalOptions = LayoutOptions.Start
+        };
+        toZadacha2PageBtn.Clicked += ToTwoPage;
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+        Content = new StackLayout { Children = { toZadacha1PageBtn, toZadacha2PageBtn } };
+    }
+
+    private async void ToTwoPage(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new Zadacha2());
+    }
+    private async void ToOnePage(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new Zadacha1());
+    }
+
 }
 
